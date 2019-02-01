@@ -1,0 +1,10 @@
+.login-error {
+	text-align: center;
+	position: relative;
+	color: red;
+}
+
+.login-sign-up-tip {
+	text-align: center;
+	font: bold;
+}

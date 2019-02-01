@@ -1,0 +1,22 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/index.css' %}">
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/header.css' %}">
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/index.css' %}">
+
+<div class="header">
+    <a href="{% url 'lang:index' %}" class="logo">SpeakIt!</a>
+    <div class="header-right">
+      <a href="{% url 'lang:signin' %}">Sign In</a>
+      <a href="{% url 'lang:signup' %}">Sign Up</a>
+      <a href="{% url 'lang:about' %}">About</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1 class="title">Something supposed to look like title!</h1>
+    <p>This is the text that you see when you see my site for the first time!</p>
+</div>
