@@ -1,0 +1,39 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/dropdown.css' %}">
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/header.css' %}">
+
+<div class="header">
+    <a href="{% url 'lang:index' %}" class="logo">SpeakIt!</a>
+    <a href="#">Home</a>
+    <a href="#">Store</a>
+    <a href="#">About</a>
+    <div class="header-right">
+        <div class="dropdown">
+            <button class="dropbtn">{{ username }}</button>
+            <div class="dropdown-content">
+                <ul>
+                    <li><a href="#">My profile</a></li>
+                    <li><a href="#">My vocabulary</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="dropdown">
+                <button class="dropbtn">Current language</button>
+                <div class="dropdown-content">
+                    <ul>
+                        <li><a href="#">English</a></li>
+                        <li><a href="#">German</a></li>
+                        <li><a href="#">Spanish</a></li>
+                        <li><a href="#">Polish</a></li>
+                        <li><a href="#">Chinese</a></li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+</div>

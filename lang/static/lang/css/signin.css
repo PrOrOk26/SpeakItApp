@@ -8,3 +8,9 @@
 	text-align: center;
 	font: bold;
 }
+
+body {
+	font-family: Helvetica;
+	background: #eee;
+  -webkit-font-smoothing: antialiased;
+}

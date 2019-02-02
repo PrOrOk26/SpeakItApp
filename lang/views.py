@@ -39,8 +39,8 @@ def sign_up(request):
         messages.error(request, "Error signing up user!")
     return render(request, HTML_SIGN_UP, {'form': sign_up_form})
 
-def main(request, login):
-    pass
+def main(request, username):
+    return render(request,HTML_MAIN, {'username': username} )
 
 def about(request):
     pass
