@@ -1,9 +1,14 @@
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href=
-"{% static 'lang/css/dropdown.css' %}">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href=
 "{% static 'lang/css/header.css' %}">
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/animate.min.css' %}">
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/bootstrap-dropdownhover.min.css' %}">
+
 
 <div class="header">
     <a href="{% url 'lang:index' %}" class="logo">SpeakIt!</a>
@@ -12,28 +17,64 @@
     <a href="#">About</a>
     <div class="header-right">
         <div class="dropdown">
-            <button class="dropbtn">{{ username }}</button>
-            <div class="dropdown-content">
-                <ul>
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+             {{ username }} <span class="caret"></span>
+            </button>
+                <ul class="dropdown-menu">
                     <li><a href="#">My profile</a></li>
                     <li><a href="#">My vocabulary</a></li>
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Help</a></li>
                     <li><a href="#">Log out</a></li>
                 </ul>
-            </div>
         </div>
-        <div class="dropdown">
-                <button class="dropbtn">Current language</button>
-                <div class="dropdown-content">
-                    <ul>
-                        <li><a href="#">English</a></li>
-                        <li><a href="#">German</a></li>
-                        <li><a href="#">Spanish</a></li>
-                        <li><a href="#">Polish</a></li>
-                        <li><a href="#">Chinese</a></li>
-                    </ul>
-                </div>
+        <div class="dropdown pull-right">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+             Languages <span class="caret"></span>
+            </button>
+                <ul class="dropdown-menu dropdownhover-bottom" role="menu">
+                    <li><a href="#">English</a></li>
+                    <li><a href="#">German</a></li>
+                    <li><a href="#">Spanish</a></li>
+                    <li><a href="#">Polish</a></li>
+                    <li><a href="#">Chinese</a></li>
+                </ul>
         </div>
     </div>
 </div>
+
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+     Dropdown <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">Action</a></li>
+      <li><a href="#">Another action</a></li>
+      <li class="dropdown">
+        <a href="#">One more dropdown</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li class="dropdown">
+            <a href="#">One more dropdown</a>
+            <ul class="dropdown-menu">
+            ...
+            </ul>
+          </li>
+          <li><a href="#">Something else here</a></li>
+          <li><a href="#">Separated link</a></li>
+         </ul>
+      </li>
+      <li><a href="#">Something else here</a></li>
+      <li><a href="#">Separated link</a></li>
+    </ul>
+  </div>
+  
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+<script src="{% static 'lang/js/bootstrap-dropdownhover.js' %}"></script>
+
