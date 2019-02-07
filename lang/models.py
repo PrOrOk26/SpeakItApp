@@ -1,13 +1,9 @@
-from django.db.models import (
-    CharField, EmailField,
-    DateField, BooleanField,
-    Model, ManyToManyField,
-    ManyToManyField, ManyToOneRel, 
-)
+from django.db import models
 
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, 
 )
+
 
 class CustomUserManager(BaseUserManager):
 
@@ -31,33 +27,35 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-class Language(Model):
-    pass
+class Language(models.Model):
+    lang_id = models.AutoField(primary_key=True)
+    lang_name = models.CharField(max_length=255,)
 
-class LangUser(AbstractBaseUser):
-    username = CharField(
+
+class User(AbstractBaseUser):
+    username = models.CharField(
         verbose_name='Username',
         max_length=255,
         primary_key=True,
         unique=True,
     )
-    first_name = CharField(verbose_name="First name",max_length=255,)
-    last_name = CharField(verbose_name="Last name",max_length=255,)
-    country = CharField(verbose_name="Country",max_length=255,)
-    email = EmailField(
+    first_name = models.CharField(verbose_name="First name",max_length=255,)
+    last_name = models.CharField(verbose_name="Last name",max_length=255,)
+    country = models.CharField(verbose_name="Country",max_length=255,)
+    email = models.EmailField(
         verbose_name='Email address',
         max_length=255,
     )
-    date_of_birth = DateField(verbose_name="Date of birth")
-    languages = ManyToManyField(Language, through='UserLearnsLanguage')
+    date_of_birth = models.DateField(verbose_name="Date of birth")
+    languages = models.ManyToManyField(Language, through='UserLearnsLanguage')
 
-    is_active = BooleanField(default=True)
-    is_admin = BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['username', 'password', ]
+    REQUIRED_FIELDS = ['password', ]
 
     def __str__(self):
         return self.username
@@ -69,10 +67,30 @@ class LangUser(AbstractBaseUser):
         return f"{self.first_name}"
 
     def save(self, *args, **kwargs):
-        super(LangUser, self).save(*args, **kwargs)
+        super(User, self).save(*args, **kwargs)
 
-class UserLearnsLanguage(Model):
-    pass
+class UserLearnsLanguage(models.Model):
+    lang_id = models.ForeignKey(Language, on_delete=models.CASCADE)
+    learner_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
-class Word(Model):
-    pass
+class Word(models.Model):
+    ADJECTIVE = 'ADJ'
+    NOUN = 'N'
+    VERB = 'V'
+    PREPOSITION = 'PREP'
+    ADVERB = 'ADV'
+    PARTS_GRAMMAR_CHOICES = (
+        (ADJECTIVE, 'Adjective'),
+        (NOUN, 'Noun'),
+        (VERB, 'Verb'),
+        (PREPOSITION, 'Preposition'),
+        (ADVERB, 'Adverb'),
+    )
+    
+    word = models.CharField(primary_key=True, max_length=255,)
+    grammar_part = models.CharField(primary_key=True, 
+                                    choices=PARTS_GRAMMAR_CHOICES,
+                                    default=NOUN,
+                                    max_length=255,
+    )
+

@@ -1,14 +1,15 @@
 from django import forms
 from django.contrib.auth import authenticate
-from .models import LangUser
+from .models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
 from django.core.validators import MinLengthValidator
 
+
 class SignInForm(forms.ModelForm):
 
     class Meta:
-        model = LangUser
+        model = User
         fields = ("username", "password", )
 
     def __init__(self, *args, **kwargs):
@@ -29,7 +30,7 @@ class SignUpForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput(render_value=False), label="confirmPassword", min_length=5)
     
     class Meta:
-        model = LangUser
+        model = User
         fields = ("username", "password", "email", )
 
     def __init__(self, *args, **kwargs):
@@ -47,10 +48,10 @@ class SignUpForm(forms.ModelForm):
             username = self.cleaned_data.get('username')
             password = self.cleaned_data.get('password')
             email = self.cleaned_data.get('email')
-            user_check = LangUser.objects.get(username=username)
+            user_check = User.objects.get(username=username)
             return None
         except ObjectDoesNotExist:
-            user_check = LangUser.objects.create_user(username=username,
+            user_check = User.objects.create_user(username=username,
             password=password, )
             user_check.email = email
             user_check.save()

@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 
 from .forms import SignInForm, SignUpForm
 
+from django.contrib.auth.decorators import login_required
+
 HTML_INDEX = 'lang/index.html'
 HTML_ABOUT = ''
 HTML_SIGN_IN = 'lang/signin.html'
@@ -39,9 +41,11 @@ def sign_up(request):
         messages.error(request, "Error signing up user!")
     return render(request, HTML_SIGN_UP, {'form': sign_up_form})
 
+@login_required
 def main(request, username):
     return render(request,HTML_MAIN, {'username': username} )
 
+@login_required
 def about(request):
     pass
 
