@@ -5,32 +5,8 @@
 {% block content %}
 	{% block css %}
 	<link rel="stylesheet" type="text/css" href=
-	"{% static 'lang/css/common.css' %}">
-	<link rel="stylesheet" type="text/css" href=
 	"{% static 'lang/css/main.css' %}">
 	{% endblock %}
-	<div id="content">
-		<div id="functionality" class="m-block">
-			<div id="builder">
-				<p class="title">Vocabulary builder</p>
-				<a href="">Start</a>
-			</div>
-			<div id="test">
-				<p class="title">Test you vocabulary knowledge</p>
-				<a href="">Start testing</a>
-			</div>
-		</div>
-		<div id="tasks">
-			<div id="goal-block" class="m-block">
-				<p class="title">Daily goal</p>
-				<p>Goal block</p>
-			</div>
-			<div id="skills-block" class="m-block">
-				<p class="title">Skills</p>
-				<p>Skills block</p>
-			</div>
-		</div>
-	</div>
 
 	{% block js %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

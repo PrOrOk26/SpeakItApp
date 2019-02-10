@@ -1,22 +1,15 @@
+{% extends 'lang/header_anon.html' %}
+
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href=
-"{% static 'lang/css/index.css' %}">
-<link rel="stylesheet" type="text/css" href=
-"{% static 'lang/css/header.css' %}">
-<link rel="stylesheet" type="text/css" href=
-"{% static 'lang/css/form.css' %}">
+{% block content %}
+
+{% block css%}
 <link rel="stylesheet" type="text/css" href=
 "{% static 'lang/css/signin.css' %}">
-
-<div class="header">
-    <a href="{% url 'lang:index' %}" class="logo">SpeakIt!</a>
-    <div class="header-right">
-      <a href="{% url 'lang:signin' %}">Sign In</a>
-      <a href="{% url 'lang:signup' %}">Sign Up</a>
-      <a href="{% url 'lang:about' %}">About</a>
-    </div>
-</div>
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/form.css' %}">
+{% endblock %}
 
 <form action="{% url 'lang:signin' %}" method="post">
     {% csrf_token %}
@@ -46,6 +39,10 @@
             <a href="{% url 'lang:signup' %}">Sign up!</a>
     </p>
 </form>
+{% block js%}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'lang/js/form.js' %}"></script>
+{% endblock %}
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="{% static 'lang/js/form.js' %}"></script>
+{% endblock %}
+

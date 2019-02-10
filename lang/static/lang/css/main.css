@@ -1,5 +1,66 @@
 body {
 	font-family: Helvetica;
-	background: #eee;
-  -webkit-font-smoothing: antialiased;
+	background: rgb(238, 236, 236);
+}
+
+#functionality div {
+	position: relative;
+	background-color: white;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+#content #tasks {
+	float: right;
+	position: relative;
+	width: 20%;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+#content #functionality {
+	display: inline-block;
+	position: relative;
+	width: 75%;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid transparent;
+	
+	border-radius: 5px;
+}
+
+#content #tasks div {
+	position: relative;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+
+.title {
+	font-size: 16px;
+	font-weight: 200;
+}
+
+#builder {
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid gray;
+	border-radius: 5px;
+}
+
+#test {
+	margin-left: 5px;
+	margin-right: 5px;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid gray;
+	border-radius: 5px;
 }

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lang.apps.LangConfig'
+    'lang.apps.LangConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -123,7 +124,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-AUTH_USER_MODEL = 'lang.User'
+
 LOGIN_REDIRECT_URL = 'lang:main'
 LOGIN_URL = 'lang:signin'
 LOGOUT_REDIRECT_URL = 'lang:index'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

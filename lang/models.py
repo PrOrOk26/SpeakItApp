@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, 
@@ -7,11 +8,11 @@ from django.contrib.auth.models import (
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, username, password=None):
+    def create_user(self, username=None, password=None):
         if not username:
             raise ValueError("Username must be specified!")
         user = self.model(
-            username=self.username,
+            username=username,
         )
 
         user.set_password(password)
@@ -28,9 +29,8 @@ class CustomUserManager(BaseUserManager):
         return user
 
 class Language(models.Model):
-    lang_id = models.AutoField(primary_key=True)
     lang_name = models.CharField(max_length=255,)
-
+    started_learning = models.DateTimeField(default=now())
 
 class User(AbstractBaseUser):
     username = models.CharField(
@@ -46,7 +46,7 @@ class User(AbstractBaseUser):
         verbose_name='Email address',
         max_length=255,
     )
-    date_of_birth = models.DateField(verbose_name="Date of birth")
+    date_of_birth = models.DateField(verbose_name="Date of birth", null=True,)
     languages = models.ManyToManyField(Language, through='UserLearnsLanguage')
 
     is_active = models.BooleanField(default=True)
@@ -87,10 +87,18 @@ class Word(models.Model):
         (ADVERB, 'Adverb'),
     )
     
-    word = models.CharField(primary_key=True, max_length=255,)
-    grammar_part = models.CharField(primary_key=True, 
-                                    choices=PARTS_GRAMMAR_CHOICES,
+    word = models.CharField(max_length=255,)
+    grammar_part = models.CharField(choices=PARTS_GRAMMAR_CHOICES,
                                     default=NOUN,
                                     max_length=255,
     )
+    date_created = models.DateTimeField(default=now())
+    lang_id = models.ForeignKey(Language, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(UserLearnsLanguage, on_delete=models.CASCADE)
 
+
+class Meaning(models.Model):
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    meaning = models.CharField(max_length=255)
+    guide_word = models.CharField(max_length=255)
+    

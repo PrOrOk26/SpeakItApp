@@ -6,19 +6,16 @@ from django.forms import ModelForm
 from django.core.validators import MinLengthValidator
 
 
-class SignInForm(forms.ModelForm):
+class SignInForm(forms.Form):
 
-    class Meta:
-        model = User
-        fields = ("username", "password", )
-
-    def __init__(self, *args, **kwargs):
-        super(SignInForm, self).__init__(*args, **kwargs)
-        self.fields['password'].widget = forms.PasswordInput(
-                render_value=False,
+    username = forms.CharField(label='Username',
+                validators=[MinLengthValidator(limit_value=5)],
                 )
-        self.fields['username'].validators.append(MinLengthValidator(limit_value=5))
-        self.fields['password'].validators.append(MinLengthValidator(limit_value=5))
+    password = forms.CharField(widget=forms.PasswordInput(
+                render_value=False,
+                ), label='Password',
+                validators=[MinLengthValidator(limit_value=5),
+                ])
 
     def log_in(self, request):
         username = self.cleaned_data.get('username')
@@ -56,4 +53,4 @@ class SignUpForm(forms.ModelForm):
             user_check.email = email
             user_check.save()
             return user_check
-        
+    

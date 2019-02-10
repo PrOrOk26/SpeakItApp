@@ -1,12 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.contrib.auth.models import User
 
 from .forms import SignInForm, SignUpForm
+from django.views.generic import (CreateView, ListView, 
+                                    UpdateView, FormView,
+                                    DetailView,
+)
+
+from .models import Word, User
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserChangeForm
 
 HTML_INDEX = 'lang/index.html'
 HTML_ABOUT = ''
@@ -49,5 +55,43 @@ def main(request, username):
 def about(request):
     pass
 
+class ListWordsView(ListView):
+    template_name = "lang/show_words.html"
+    context_object_name = "words"
+
+    def get_queryset(self):
+        pass
+
+class AddWordView(CreateView):
+    model = Word
+    template_name = "lang/add_word.html"
+    fields = ['word', 'grammar_part']
+
+class UpdateWordView(UpdateView):
+    pass
+
+class ProfileView(DetailView):
+    form_class = UserChangeForm
+    template_name = "lang/profile.html"
+    context_object_name = 'user'   
+
+    def get(self, request, username):
+        profile_form = self.form_class(instance=request.user)
+        return render(request, 'lang/profile.html', context={'form': profile_form})
+
+    def post(self, request, username):
+        profile_form = self.form_class(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            return HttpResponseRedirect("/{}/main/".format(username))
+        messages.error(request, "Invalid data!")
+        return render(request, 'lang/profile.html', context={'form': profile_form})
+        
+
+    def get_object(self):
+        _username = self.kwargs.get('username')
+        user = get_object_or_404(User, username=_username)
+        return user
 
 
+    

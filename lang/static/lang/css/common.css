@@ -1,0 +1,15 @@
+#content {
+	position: relative;
+	border: 1px solid transparent;
+	margin: 0 auto;
+	padding: 5px;
+}
+
+#content > div {
+	display: inline-block;
+	position: relative;
+	height: auto;
+	background-color: white;
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
