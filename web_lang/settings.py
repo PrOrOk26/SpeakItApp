@@ -129,4 +129,6 @@ LOGIN_REDIRECT_URL = 'lang:main'
 LOGIN_URL = 'lang:signin'
 LOGOUT_REDIRECT_URL = 'lang:index'
 
+AUTH_USER_MODEL = 'lang.User'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

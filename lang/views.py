@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib import messages
+from django.contrib.auth.views import PasswordChangeView
 
-from .forms import SignInForm, SignUpForm
+from .forms import SignInForm, SignUpForm, UserEditForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import (CreateView, ListView, 
                                     UpdateView, FormView,
                                     DetailView,
@@ -12,7 +14,6 @@ from django.views.generic import (CreateView, ListView,
 from .models import Word, User
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserChangeForm
 
 HTML_INDEX = 'lang/index.html'
 HTML_ABOUT = ''
@@ -71,9 +72,9 @@ class UpdateWordView(UpdateView):
     pass
 
 class ProfileView(DetailView):
-    form_class = UserChangeForm
+    form_class = UserEditForm
     template_name = "lang/profile.html"
-    context_object_name = 'user'   
+    context_object_name = 'user'  
 
     def get(self, request, username):
         profile_form = self.form_class(instance=request.user)
@@ -93,5 +94,25 @@ class ProfileView(DetailView):
         user = get_object_or_404(User, username=_username)
         return user
 
+class LangPasswordChangeView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = "lang/edit_password.html"   
 
-    
+    def get(self, request, username):
+        profile_form = self.form_class(user=request.user)
+        return render(request, 'lang/edit_password.html', context={'form': profile_form})
+
+    def post(self, request, username):
+        profile_form = self.form_class(data=request.POST, user=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            update_session_auth_hash(request, profile_form.user)
+            return HttpResponseRedirect("/{}/profile/".format(username))
+        messages.error(request, "Invalid data!")
+        return render(request, 'lang/edit_password.html', context={'form': profile_form})
+        
+
+    def get_object(self):
+        _username = self.kwargs.get('username')
+        user = get_object_or_404(User, username=_username)
+        return user

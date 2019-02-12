@@ -68,6 +68,7 @@ class User(AbstractBaseUser):
 
     def save(self, *args, **kwargs):
         super(User, self).save(*args, **kwargs)
+        
 
 class UserLearnsLanguage(models.Model):
     lang_id = models.ForeignKey(Language, on_delete=models.CASCADE)

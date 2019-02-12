@@ -4,6 +4,7 @@ from .models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.forms import UserChangeForm
 
 
 class SignInForm(forms.Form):
@@ -54,3 +55,26 @@ class SignUpForm(forms.ModelForm):
             user_check.save()
             return user_check
     
+class UserEditForm(UserChangeForm):
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'first_name', 
+                    'last_name', 'country', 'date_of_birth',
+                    )
+
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
+        self.fields['date_of_birth'].widget = forms.DateInput()
+        self.fields['password'].help_text = "You can change your password using the button below"
+
+    # optional 
+    def save(self, commit=True):
+        user = super(UserEditForm, self).save(commit=False)
+        user.country = self.cleaned_data.get('country')
+        user.date_of_birth = self.cleaned_data.get('date_of_birth')
+
+        if commit:
+            user.save()
+        
+        return user

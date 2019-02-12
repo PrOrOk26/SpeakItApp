@@ -11,13 +11,13 @@
 		<li><a href="{% url 'lang:main' user.username %}" class="logo">SpeakIt!</a></li>
 		<li><a href="#">News</a></li>
 		<li><a href="#">About</a></li>
-		<li class="nav-elem-right"><a href="#"> {{ user.username }} &#8964;</a>
+		<li class="nav-elem-right"><a href="{% url 'lang:main' user.username %}"> {{ user.username }} &#8964;</a>
 			<ul>
 				<li><a href="{% url 'lang:profile' user.username %}">My profile</a></li>
 				<li><a href="#">My vocabulary</a></li>
 				<li><a href="#">Settings</a></li>
 				<li><a href="#">Help</a></li>
-				<li><a href="#">Log out</a></li>
+				<li><a href={% url 'lang:logout' user.username %}>Log out</a></li>
 			</ul>
 			
 		</li>
