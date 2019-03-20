@@ -31,6 +31,16 @@
     position:relative;
 }
 
+#nav select{
+    display: inline-block;
+    margin-right:5px;
+    position:relative;
+}
+
+div[class="dropdown bootstrap-select nav-elem-right show-tick"] .nav-elem-right {
+    float: right;
+}
+
 #nav .nav-elem-right{
   float: right;
   margin-right: 30px;
@@ -51,7 +61,23 @@
     text-decoration:none;
     border-radius: 5px;
 }
+
 #nav a:hover{
+    color:#fff;
+    background:#6c248d;
+    text-decoration:underline;
+}
+
+#nav select{
+    display:block;
+    padding:5px;
+    color:#fff;
+    background:rgb(129, 128, 128);
+    text-decoration:none;
+    border-radius: 5px;
+}
+
+#nav select:hover{
     color:#fff;
     background:#6c248d;
     text-decoration:underline;

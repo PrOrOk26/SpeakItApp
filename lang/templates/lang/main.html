@@ -13,11 +13,11 @@
 		<div id="functionality" class="m-block">
 			<div id="builder">
 				<p class="title">Vocabulary builder</p>
-				<a href="">Start</a>
+				<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Start</a>
 			</div>
 			<div id="test">
 				<p class="title">Test you vocabulary knowledge</p>
-				<a href="">Start testing</a>
+				<a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing</a>
 			</div>
 		</div>
 		<div id="tasks">

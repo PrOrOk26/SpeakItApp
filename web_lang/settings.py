@@ -37,8 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'lang.apps.LangConfig',
+    'builder.apps.BuilderConfig',
+    'test_voc.apps.TestVocConfig',
     'crispy_forms',
+    'django_tables2',
+    'django_filters',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

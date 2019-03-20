@@ -67,12 +67,31 @@ class UserEditForm(UserChangeForm):
         super(UserEditForm, self).__init__(*args, **kwargs)
         self.fields['date_of_birth'].widget = forms.DateInput()
         self.fields['password'].help_text = "You can change your password using the button below"
-
-    # optional 
+ 
     def save(self, commit=True):
         user = super(UserEditForm, self).save(commit=False)
         user.country = self.cleaned_data.get('country')
         user.date_of_birth = self.cleaned_data.get('date_of_birth')
+
+        if commit:
+            user.save()
+        
+        return user
+
+class AddUserLearnsLanguageForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('languages',)
+        widgets = {'languages': forms.Select}
+    
+    def __init__(self, *args, **kwargs):
+        languages = kwargs.pop('languages', None)
+        super(AddUserLearnsLanguageForm, self).__init__(*args, **kwargs)
+        if languages:
+            self.fields['languages'].queryset = languages
+
+    def save(self, commit=True):
+        user = super(AddUserLearnsLanguageForm, self).save(commit=False)
 
         if commit:
             user.save()

@@ -20,5 +20,5 @@ LANG_APP = 'lang.urls'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(LANG_APP))
+    path('', include(LANG_APP, namespace='lang')),
 ]

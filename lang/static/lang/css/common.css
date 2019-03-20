@@ -13,3 +13,14 @@
 	border: 1px solid transparent;
 	border-radius: 5px;
 }
+
+body {
+    background-color: rgb(238, 236, 236);
+}
+
+.round-container {
+	background-color: white;
+	border-radius: 8px;
+    margin: 10px 12px;
+    padding: 3% 3%;
+}

@@ -1,12 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
 {% load static %}
 
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href=
 "{% static 'lang/css/index.css' %}">
 <link rel="stylesheet" type="text/css" href=
 "{% static 'lang/css/header.css' %}">
 <link rel="stylesheet" type="text/css" href=
 "{% static 'lang/css/index.css' %}">
+</head>
 
+<body>
 <div class="navigation">
     <ul id="nav">
         <li><a href="{% url 'lang:index' %}" class="logo">SpeakIt!</a></li>
@@ -17,6 +24,10 @@
     </ul>
 </div>
 
+
 {% block content %}
 
 {% endblock %}
+
+</body>
+</html>

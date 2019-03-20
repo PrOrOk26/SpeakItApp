@@ -2,16 +2,17 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib import messages
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, TemplateView
 
-from .forms import SignInForm, SignUpForm, UserEditForm
+from .forms import (SignInForm, SignUpForm, UserEditForm, 
+                    AddUserLearnsLanguageForm)
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import (CreateView, ListView, 
                                     UpdateView, FormView,
                                     DetailView,
 )
 
-from .models import Word, User
+from .models import Word, User, UserLearnsLanguage, Language
 
 from django.contrib.auth.decorators import login_required
 
@@ -56,21 +57,6 @@ def main(request, username):
 def about(request):
     pass
 
-class ListWordsView(ListView):
-    template_name = "lang/show_words.html"
-    context_object_name = "words"
-
-    def get_queryset(self):
-        pass
-
-class AddWordView(CreateView):
-    model = Word
-    template_name = "lang/add_word.html"
-    fields = ['word', 'grammar_part']
-
-class UpdateWordView(UpdateView):
-    pass
-
 class ProfileView(DetailView):
     form_class = UserEditForm
     template_name = "lang/profile.html"
@@ -100,7 +86,7 @@ class LangPasswordChangeView(PasswordChangeView):
 
     def get(self, request, username):
         profile_form = self.form_class(user=request.user)
-        return render(request, 'lang/edit_password.html', context={'form': profile_form})
+        return render(request, LangPasswordChangeView.template_name, context={'form': profile_form})
 
     def post(self, request, username):
         profile_form = self.form_class(data=request.POST, user=request.user)
@@ -109,10 +95,36 @@ class LangPasswordChangeView(PasswordChangeView):
             update_session_auth_hash(request, profile_form.user)
             return HttpResponseRedirect("/{}/profile/".format(username))
         messages.error(request, "Invalid data!")
-        return render(request, 'lang/edit_password.html', context={'form': profile_form})
+        return render(request, LangPasswordChangeView.template_name, context={'form': profile_form})
         
 
     def get_object(self):
         _username = self.kwargs.get('username')
         user = get_object_or_404(User, username=_username)
         return user
+
+class BuilderView(TemplateView):
+    template_name = "lang/builder.html"
+
+    def get(self, request, username):
+        return render(request, BuilderView.template_name)
+
+class LearningCabinetView(TemplateView):
+    template_name = "lang/learning_cabinet.html"
+    form_class = AddUserLearnsLanguageForm
+
+    def get(self, request, username):
+        user = request.user
+        languages_learning = user.languages.all()
+        languages_to_learn = Language.objects.all().difference(languages_learning)
+        form = self.form_class(languages=languages_to_learn)
+        return render(request, LearningCabinetView.template_name, context={'languages': languages_learning,
+                                                            'form': form})
+
+    def post(self, request, username):
+        user = request.user
+        language = request.POST.get('languages')[0]
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect("/{}/main/".format(username))
