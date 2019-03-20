@@ -1,0 +1,39 @@
+{% extends 'lang/header_logged.html' %}
+
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+	{% block css %}
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/common.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'builder/css/builder.css' %}">
+    {% endblock %}
+	<div id="content">
+		<div class="inline-block-content">
+			{% if filter %}
+			<form action="" method="get" class="form form-inline">
+				{% bootstrap_form filter.form layout='inline' %}
+				{% bootstrap_button 'filter' button_type="submit" button_class="btn-primary"%}
+			</form>
+			{% endif %}
+			<a class="btn btn-success" href="{% url 'lang:builder:addword' user.username %}">Add new word</a>
+		</div>
+		{% render_table table %}
+	</div>
+
+	{% block js %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	{% endblock %}
+{% endblock %}
+
+
+
+

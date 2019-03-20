@@ -1,0 +1,23 @@
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+    {% block css %}
+    <style>
+        div .btn {
+            display: inline-block;
+        }
+        #edit {
+            color: white;
+        }
+        #delete {
+            color: white;
+        }
+    </style>
+    {% endblock %}
+	<div>
+        <a href="" class='btn btn-success'><span id="edit">Edit</span></a>
+        <a href="" class='btn btn-success'><span id="delete">Delete</span></a>
+	</div>
+{% endblock %}
