@@ -4,20 +4,10 @@
 
 {% block content %}
     {% block css %}
-    <style>
-        div .btn {
-            display: inline-block;
-        }
-        #edit {
-            color: white;
-        }
-        #delete {
-            color: white;
-        }
-    </style>
+
     {% endblock %}
 	<div>
-        <a href="" class='btn btn-success'><span id="edit">Edit</span></a>
-        <a href="" class='btn btn-success'><span id="delete">Delete</span></a>
+        <a class='edit btn btn-success'><span>Edit</span></a>
+        <a class='delete btn btn-success'><span>Delete</span></a>
 	</div>
 {% endblock %}

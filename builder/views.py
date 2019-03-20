@@ -7,10 +7,10 @@ from django_tables2.views import SingleTableMixin
 from .filters import WordFilter
 from django.views.generic import (CreateView, ListView, 
                                     UpdateView, FormView,
-                                    DetailView,TemplateView
+                                    DetailView, TemplateView
 )
 from django.shortcuts import render, reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib import messages
 
 
@@ -50,8 +50,13 @@ class EditWordView(UpdateView):
 
 class DeleteWordView(TemplateView):
     
-    def get(self, request, username, word):
-        Word.objects.get(id=word).delete()
-        return HttpResponseRedirect(reverse("lang:builder:builder_main",
-                                                kwargs={'username': username  }))
+    def post(self, request, username):
+        word_id = request.POST.get('word', None)
+        data = {
+            'is_deleted': False
+        }
+        result = Word.objects.get(id=word_id).delete()
+        if result[0] == 1:
+            data['is_deleted'] = True
+        return JsonResponse(data)
 
