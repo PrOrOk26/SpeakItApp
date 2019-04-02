@@ -25,3 +25,23 @@ body {
     margin: 10px 12px;
     padding: 3% 3%;
 }
+
+.common-container {
+	display: block;
+	position: relative;
+	height: auto;
+	background-color: white;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	margin: 10px;
+}
+
+#content > .common-container {
+	display: block;
+	position: relative;
+	height: auto;
+	background-color: white;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}

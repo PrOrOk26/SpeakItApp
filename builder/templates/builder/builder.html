@@ -21,10 +21,18 @@
             color: white;
 		}
 		#add-button {
-			margin: 10px;
+			margin-bottom: 5px;
+			margin-left: 5px;
+		}
+		#manage-topics-button {
+			margin-bottom: 5px;
 		}
 		#content > .inline-block-content {
 			display: block;
+		}
+		nav[aria-label="Table navigation"] .pagination {
+			margin-bottom: 5px;
+			margin-left: 5px;
 		}
     </style>
 	{% block css %}
@@ -37,9 +45,10 @@
 				{% bootstrap_button 'filter' button_type="submit" button_class="btn-primary"%}
 			</form>
 			{% endif %}
-			<a id="add-button" class="btn btn-success" href="{% url 'lang:builder:addword' user.username %}">Add new word</a>
-		</div>
-		{% render_table table %}
+			<a id="add-button" class="btn btn-success" href="{% url 'lang:builder:addword' user.username %}">Add word</a>
+			<a id="manage-topics-button" class="btn btn-success" href="{% url 'lang:builder:addword' user.username %}">Manage topics</a>
+		</div> 
+		{% render_table table %}	 
 	</div>
 
 
@@ -49,53 +58,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <script>
-	$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        }
-    }
-	});
-    $(".delete").click(function () {
-		var row = $(this).parent().parent().parent()
-        var word_id_to_delete = $(this).parent().parent().siblings()[0].innerText
-		const url_to_delete = "{% url 'lang:builder:deleteword' user.username %}"
-
-		$.ajax({
-			type: "POST",
-			url: url_to_delete,
-			data: {
-          	'word': word_id_to_delete
-        	},
-			dataType: 'json',
-			success: function (data) {
-				if (data.is_deleted) {
-					row.hide("slow")
-				}
-			}
-    	});
-    });
-	$(".edit").click(function () {
-        console.log("edit word is triggered")
-    });
-	</script>
+	<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+	<script src="{% static 'builder/js/builder.js' %}"></script>
 {% endblock %}
 
 

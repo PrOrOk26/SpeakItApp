@@ -1,0 +1,56 @@
+{% extends 'lang/header_logged.html' %}
+
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/common.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+    "{% static 'test_voc/css/test_voc.css' %}">
+    <link rel="stylesheet" type="text/css" href=
+	"{% static 'test_voc/css/test_meaning.css' %}">
+    {% endblock %}
+    <body>
+        <div id="test-content">
+            <div class="progress-container">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                </div>
+                <a id="btn-end-test" class="btn btn-warning" href="{% url 'lang:test_voc:testmeaning' user.username %}">End test</a>
+            </div>
+            <div id="question">
+                <p id="question-text"></p>
+                <div id="question-choices">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios">
+                        <label class="custom-control-label" for="defaultGroupExample1">Option 1</label>
+                    </div>      
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="example">
+                <h1 id="question-result">Wrong</h1>
+                <h1>Look at the example to memorise better!</h1>
+                <p>!Example!</p>
+            </div>
+            <a id="btn-skip" class="btn btn-warning" href="{% url 'lang:test_voc:testmeaning' user.username %}">Skip</a>
+            <a id="btn-check" class="btn btn-primary" href="{% url 'lang:test_voc:testmeaning' user.username %}">Check my answer</a>
+        </div>
+    </body>
+
+{% endblock %}
+
+{% block js %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="{% static 'test_voc/js/test_meaning.js' %}"></script>
+{% endblock %}
+
+
+
+

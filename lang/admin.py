@@ -13,6 +13,7 @@ admin.site.register(models.Topic)
 admin.site.register(models.WordHasTopic)
 admin.site.register(models.WordSynonim)
 admin.site.register(models.WordExample)
+admin.site.register(models.WordQuestion)
 
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)

@@ -1,8 +1,6 @@
-from django import forms
 from lang.models import Word, UserLearnsLanguage, Language
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
-from django.core.validators import MinLengthValidator
 
 class WordForm(ModelForm):
     
@@ -14,8 +12,12 @@ class WordForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(WordForm, self).__init__(*args, **kwargs)
  
-    def save(self, commit=True, user=None):
-        word = super(WordForm, self).save(commit=False)
+    def save(self, commit=True, user=None, word_pk=None):
+        word = None
+        if not word_pk:
+            word = super(WordForm, self).save(commit=False)
+        else:
+            word = Word.objects.get(id=word_pk)
         word.grammar_part = self.cleaned_data.get('grammar_part')
         word.word = self.cleaned_data.get('word')
         word.lang_id = Language.objects.get(id=1)  # to fix, ADD 
@@ -25,3 +27,5 @@ class WordForm(ModelForm):
             word.save()
         
         return word
+
+

@@ -1,0 +1,41 @@
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(219, 219, 218);
+}
+#test-content {
+    flex-grow: 1;
+}
+#test-content .progress-container {
+    display: block;
+    margin: 10px;
+    padding: 15px 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+#test-content #question {
+    display: block;
+}
+#question #question-text {
+    display: block;
+    text-align: center;
+}
+#question #question-choices {
+    width: 50%;
+    margin: 0 auto;
+}
+#footer {
+    margin: 10px 10px;
+    background-color: rgb(198, 201, 202);
+    border-radius: 5px;
+}
+#btn-skip {
+    float: left;
+    margin: 15px;
+    width: 10%;
+}
+#btn-check {
+    float: right;
+    margin: 15px;
+    width: 20%;
+}

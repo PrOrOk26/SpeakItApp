@@ -1,5 +1,7 @@
 {% extends 'lang/header_logged.html' %}
 
+{% load bootstrap4 %}
+
 {% load static %}
 
 {% block content %}
@@ -8,28 +10,23 @@
 	"{% static 'lang/css/common.css' %}">
 	<link rel="stylesheet" type="text/css" href=
 	"{% static 'lang/css/main.css' %}">
-	{% endblock %}
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/profile.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'builder/css/builder.css' %}">
+    {% endblock %}
 	<div id="content">
-		<div id="functionality" class="m-block">
-			<div id="builder">
-				<h1>Vocabulary builder</h1>
-				<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Start</a>
-			</div>
-			<div id="test">
-				<h1>Test you vocabulary knowledge</h1>
-				<a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing</a>
-			</div>
-		</div>
-		<div id="tasks">
-			<div id="goal-block" class="m-block">
-				<p class="title">Daily goal</p>
-				<p>Goal block</p>
-			</div>
-			<div id="skills-block" class="m-block">
-				<p class="title">Skills</p>
-				<p>Skills block</p>
-			</div>
-		</div>
+			<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Back to word list</a>
+        <form action="." method="post" class="profile-form">
+            {% csrf_token %}
+            <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+              {% for error in form.non_field_errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+            {% bootstrap_form form %}
+            {% bootstrap_button 'Apply changes' button_type="submit" button_class="btn-primary"%}
+        </form>
 	</div>
 
 	{% block js %}
@@ -38,7 +35,3 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 	{% endblock %}
 {% endblock %}
-
-
-
-

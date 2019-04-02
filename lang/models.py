@@ -114,6 +114,7 @@ class Word(models.Model):
                                     default=NOUN,
                                     max_length=255)
     success_rate = models.FloatField(default=0.0)
+    times_asked = models.IntegerField(default=0)
     date_created = models.DateTimeField("Created At", auto_now_add=True, editable=False)
     topics = models.ManyToManyField(Topic, through='WordHasTopic')
     lang_id = models.ForeignKey(Language, on_delete=models.CASCADE)
@@ -154,3 +155,9 @@ class WordExample(models.Model):
     def __str__(self):
         return self.text
 
+class WordQuestion(models.Model):
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.text
