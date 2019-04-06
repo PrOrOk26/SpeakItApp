@@ -21,8 +21,11 @@ __pycache__/
 *$py.class
 .vscode
 
+<<<<<<< HEAD
 env_2/
 
+=======
+>>>>>>> e87c545f01ef9f8b019a93407d61e4eb88a5b33f
 
 # C extensions
 *.so
