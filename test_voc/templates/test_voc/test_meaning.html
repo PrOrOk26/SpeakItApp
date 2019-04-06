@@ -15,38 +15,22 @@
     {% endblock %}
     <body>
         <div id="test-content">
-<<<<<<< HEAD
             <div id="btn-end-test">
                 <a class="btn btn-warning" href="">End test</a>
             </div>
-=======
->>>>>>> e87c545f01ef9f8b019a93407d61e4eb88a5b33f
             <div class="progress-container">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
                 </div>
-<<<<<<< HEAD
             </div>
             <div id="question">
                 <p id="question-text"></p>
                 <div id="question-choices">    
-=======
-                <a id="btn-end-test" class="btn btn-warning" href="{% url 'lang:test_voc:testmeaning' user.username %}">End test</a>
-            </div>
-            <div id="question">
-                <p id="question-text"></p>
-                <div id="question-choices">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id="defaultGroupExample1" name="groupOfDefaultRadios">
-                        <label class="custom-control-label" for="defaultGroupExample1">Option 1</label>
-                    </div>      
->>>>>>> e87c545f01ef9f8b019a93407d61e4eb88a5b33f
                 </div>
             </div>
         </div>
         <div id="footer">
             <div id="example">
-<<<<<<< HEAD
                 <img id="result-icon" src="" width="200" height="200" alt="image format png"/>
                 <div id="example-body">
                     <h3 id="question-result"></h3>
@@ -56,14 +40,6 @@
             </div>
             <a id="btn-skip" class="btn btn-warning"  onclick="">Skip</a>
             <a id="btn-check" class="btn btn-primary"  onclick="">Check my answer</a>
-=======
-                <h1 id="question-result">Wrong</h1>
-                <h1>Look at the example to memorise better!</h1>
-                <p>!Example!</p>
-            </div>
-            <a id="btn-skip" class="btn btn-warning" href="{% url 'lang:test_voc:testmeaning' user.username %}">Skip</a>
-            <a id="btn-check" class="btn btn-primary" href="{% url 'lang:test_voc:testmeaning' user.username %}">Check my answer</a>
->>>>>>> e87c545f01ef9f8b019a93407d61e4eb88a5b33f
         </div>
     </body>
 
