@@ -1,0 +1,47 @@
+#content {
+	position: relative;
+	border: 1px solid transparent;
+	margin: 0 auto;
+	padding: 5px;
+}
+
+#content > div {
+	display: inline-block;
+	position: relative;
+	height: auto;
+	background-color: white;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+body {
+    background-color: rgb(238, 236, 236);
+}
+
+.round-container {
+	background-color: white;
+	border-radius: 8px;
+    margin: 10px 12px;
+    padding: 3% 3%;
+}
+
+.common-container {
+	display: block;
+	position: relative;
+	height: auto;
+	background-color: white;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	margin: 10px;
+}
+
+#content > .common-container {
+	display: block;
+	position: relative;
+	height: auto;
+	background-color: white;
+	border: 1px solid transparent;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}

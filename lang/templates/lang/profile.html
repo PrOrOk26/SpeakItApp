@@ -1,0 +1,33 @@
+{% extends 'lang/header_logged.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+	{% block css %}
+	<link rel="stylesheet" type="text/css" href=
+    "{% static 'lang/css/common.css' %}">
+    <link rel="stylesheet" type="text/css" href=
+    "{% static 'lang/css/profile.css' %}">
+	{% endblock %}
+	<div id="content">
+        <form class="profile-form" action="{% url 'lang:profile' user.username %}" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            
+            <span class="password-change"><a href="{% url 'lang:changepassword' user.username %}" class="btn btn-success">Change Password</a></span>
+
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+	{% block js %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	{% endblock %}
+{% endblock %}
+
+
+
+

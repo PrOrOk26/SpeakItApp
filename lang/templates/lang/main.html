@@ -1,0 +1,44 @@
+{% extends 'lang/header_logged.html' %}
+
+{% load static %}
+
+{% block content %}
+	{% block css %}
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/common.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/main.css' %}">
+	{% endblock %}
+	<div id="content">
+		<div id="functionality" class="m-block">
+			<div id="builder">
+				<h1>Vocabulary builder</h1>
+				<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Start</a>
+			</div>
+			<div id="test">
+				<h1>Test you vocabulary knowledge</h1>
+				<a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing</a>
+			</div>
+		</div>
+		<div id="tasks">
+			<div id="goal-block" class="m-block">
+				<p class="title">Daily goal</p>
+				<p>Goal block</p>
+			</div>
+			<div id="skills-block" class="m-block">
+				<p class="title">Skills</p>
+				<p>Skills block</p>
+			</div>
+		</div>
+	</div>
+
+	{% block js %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	{% endblock %}
+{% endblock %}
+
+
+
+

@@ -1,0 +1,16 @@
+.login-error {
+	text-align: center;
+	position: relative;
+	color: red;
+}
+
+.login-sign-up-tip {
+	text-align: center;
+	font: bold;
+}
+
+body {
+	font-family: Helvetica;
+	background: rgb(255, 255, 255);
+  -webkit-font-smoothing: antialiased;
+}

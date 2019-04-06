@@ -1,0 +1,43 @@
+{% extends 'lang/header_anon.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% block css%}
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/signup.css' %}">
+<link rel="stylesheet" type="text/css" href=
+"{% static 'lang/css/form.css' %}">
+{% endblock %}
+
+<form action="{% url 'lang:signup' %}" onsubmit="return validateForm()" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="group">
+            {{ field }}
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label for="{{ field.id_for_label }}">{{ field.html_name }}</label>
+        </div>
+        {% for error in field.errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+    <button id="submit" type="submit" class="button buttonBlue">Sign up
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+
+    {% for message in messages %}
+    <div class="alert alert-success login-error">
+    <a href="#" data-dismiss="alert">×</a>
+    {{ message }}
+    </div>
+    {% endfor %}
+</form>
+{% block js%}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'lang/js/form.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

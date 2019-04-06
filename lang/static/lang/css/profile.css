@@ -1,0 +1,11 @@
+.profile-form {
+    background-color: white;
+    border-radius: 8px;
+    margin: 10px 30px;
+    padding: 3% 3%;
+}
+
+.password-change {
+    display: block;
+    margin-bottom: 7px;
+}

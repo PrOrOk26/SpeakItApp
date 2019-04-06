@@ -1,0 +1,23 @@
+#content .table-container {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: block;
+}
+#content .form {
+    margin: 10px;
+}
+.form .form-group {
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block; 
+}
+
+.inline-block-content {
+    background-color: transparent;
+}
+
+.inline-block-content div, .form{
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
