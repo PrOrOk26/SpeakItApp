@@ -1,0 +1,18 @@
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+    {% block css %}
+    {% endblock %}
+    <div id="result-content">
+        <h4 id="result-header">{{ header }}</h4>
+        <h5 id="result-number">{{ times_right }} out of {{ times_asked }}</h5>
+        <h6 id="result-phrase">{{ phrase }}</h6>
+        <a class="btn btn-warning" href="{% url 'lang:test_voc:testmain' user.username %}">Back to testing page</a>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

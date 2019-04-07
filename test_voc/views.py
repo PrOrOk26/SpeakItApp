@@ -10,8 +10,9 @@ from django.views.generic import (CreateView, ListView,
                                     DetailView,
 )
 from django.db.models import Max
-from random import randint
+from random import randint, choice
 from django.template.loader import render_to_string
+from json import loads
 
 class TestMainView(TemplateView):
     template_name = "test_voc/test_main.html"
@@ -94,27 +95,49 @@ class TestQuestionsSupplierView(TemplateView):
         return tests
 
 class TestProcessResultView(TemplateView):
-    phrases_success = ()
-    phrases_failure = ()
-    phrases_medium = ()
+    phrases_success = ("Great job!You are getting better with every test!",
+                        "Well done!You will be speaking even better with such results",
+                        "Here we go!That's how you do it!")
+    phrases_failure = ("Bad!You need to have more practise!",
+                        "You should have done this test better!")
+    phrases_medium = ("OK!But you can do better!",
+                       "Not bad,but this is not best result possible!",
+                        "Not your best, but you can do better next time!")
 
     def post(self, request, username):
-        test_results = request.POST.get("results")
+        test_results = loads(request.POST.get("results")) 
         right_answers = 0
-        for result in test_results:
-            word = Word.objests.get(result.get("word_id"))
-            word_right = word.success_rate * word.times_asked
-            word_right += result.times_right
-            word.times_asked += result.times_asked
-            word.success_rate = word_right / word.times_asked
 
-            right_answers += result.times_right
+        for result in test_results:
+            word = Word.objects.get(id=result.get("word_id"))
+            word_right = word.success_rate * word.times_asked
+            word_right += result['times_right']
+            word.times_asked += result['times_asked']
+            word.success_rate = word_right / word.times_asked
+            word.save()
+            
+            right_answers += result['times_right']
+        
         result_to_show = {
             'times_right': right_answers,
             'times_asked': len(test_results),
             'phrase': "",
-            'header': ""
+            'header': "",
         }
+
+        if right_answers < int(len(test_results) / 2):
+            result_to_show['phrase'] = choice(self.phrases_failure)
+            result_to_show['header'] = "Bad,but your results will be better!"
+        elif right_answers in range(int(len(test_results) / 2), int(len(test_results) * 0.8)):
+            result_to_show['phrase'] = choice(self.phrases_medium)
+            result_to_show['header'] = "Not bad, but you are able to improve even more!"
+        elif right_answers in range(int(len(test_results) * 0.8), len(test_results)):
+            result_to_show['phrase'] = choice(self.phrases_success)
+            result_to_show['header'] = "Good result, but there is no limit to perfection!"
+        elif right_answers == len(test_results):
+            result_to_show['phrase'] = "Your result is perfect in this test,but don't stop learning!"
+            result_to_show['header'] = "Excellent result, no wrong answers!"
+        
         resultHTML = render_to_string('test_voc/test_results.html', request=request, 
                                 context=result_to_show)
         return JsonResponse({'resultHTML': resultHTML })

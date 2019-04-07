@@ -5,8 +5,8 @@ const NEUTRAL_STATE = 0
 const RIGHT_ANSWER_STATE = 1
 const WRONG_ANSWER_STATE = 2
 
-const RIGHT_ANSWER_IMAGE_REF = "{% static 'test_voc/img/icons8-checkmark.svg' %}"
-const WRONG_ANSWER_IMAGE_REF = "{% static 'test_voc/img/rejected.svg' %}"
+const RIGHT_ANSWER_IMAGE_REF = "http://127.0.0.1:8000/static/test_voc/img/icons8-checkmark.svg"
+const WRONG_ANSWER_IMAGE_REF = "http://127.0.0.1:8000/static/test_voc/img/rejected.svg"
 const PROMPT_EXAMPLE_PHRASE  = "Look at the example to memorise better!"
 
 const TESTS_MAIN_PAGE_URL = "{% url 'lang:test_voc:testmain' user.username %}"
@@ -117,7 +117,7 @@ function onAnswerMade(isSkipped = false) {
             let id = $(radio_inputs[i]).attr("id")
             let label = "".concat("label[for=\'", id, "\']")
             let radio_label = $(label)
-            choosen_answer = radio_label.textContent
+            choosen_answer = radio_label.text()
             break
         }
     }
@@ -127,21 +127,33 @@ function onAnswerMade(isSkipped = false) {
         return
     }
 
-    let example_to_show = current_test_to_check.examples[0]
+    let example_to_show = current_test_to_check.word_examples[0] || "You don't have any examples yet!"
 
     if (choosen_answer == current_test_to_check.right_meaning) {
-        if(!isSkipped)
-            changeFooterState(RIGHT_ANSWER_STATE)
         saveAnswer(RIGHT_ANSWER_STATE)
+        tests = JSON.parse(sessionStorage.getItem(MEANINGS_DATA))
+        if(!isSkipped && tests.length > 0)
+            changeFooterState(RIGHT_ANSWER_STATE)
+        else if(!isSkipped && tests.length == 0)
+            changeFooterState(RIGHT_ANSWER_STATE, true)
     }
     else {
-        if(!isSkipped)
-            changeFooterState(WRONG_ANSWER_STATE)
         saveAnswer(WRONG_ANSWER_STATE)
+        tests = JSON.parse(sessionStorage.getItem(MEANINGS_DATA))
+        if(!isSkipped && tests.length > 0)
+            changeFooterState(WRONG_ANSWER_STATE)
+        else if(!isSkipped && tests.length == 0)
+            changeFooterState(WRONG_ANSWER_STATE, true)
     }
 
     if(!isSkipped)
         setFooterExample(current_test_to_check.word, example_to_show)
+
+    if(isSkipped && tests.length > 0)
+        onNextQuestion()
+    else if(isSkipped && tests.length == 0)
+        changeFooterState(NEUTRAL_STATE, true)
+    
 }
 
 //fires when the next question is shown
@@ -149,11 +161,10 @@ function onNextQuestion() {
     var tests = JSON.parse(sessionStorage.getItem(MEANINGS_DATA))
     var results = JSON.parse(sessionStorage.getItem(MEANINGS_TEST_RESULTS_DATA))
 
+    clearQuestionChoices()
     insertNextTest()
-    setTestProgressBar(results.length / tests.length)
+    setTestProgressBar(results.length / (tests.length + results.length))
 
-    if(tests.length == 1)
-        changeFooterState(NEUTRAL_STATE, true)
     changeFooterState(NEUTRAL_STATE, false)
 }
 
@@ -173,10 +184,10 @@ function onFinish() {
 
     const url_process_results = "process_results/"
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: url_process_results,
             data: {
-            'results': test_results
+            'results': JSON.stringify(test_results)
             },
             dataType: 'json',
             success: function (data) {
@@ -200,16 +211,19 @@ function changeFooterState(state = NEUTRAL_STATE, isLastWord = false) {
         $("#result-icon").attr("src", "")
         $("#result-icon").hide()
 
-        $("#btn-check").text("Check my answer")
-        $("#btn-check").attr("onclick", "onAnswerMade()")
-        $("#btn-check").show()
 
         if(!isLastWord) {
             $("#btn-skip").attr("onclick", "onAnswerMade(true)")
             $("#btn-skip").show()
+            $("#btn-check").text("Check my answer")
+            $("#btn-check").attr("onclick", "onAnswerMade()")
+            $("#btn-check").show()
         }
         else {
             $("#btn-skip").hide()
+            $("#btn-check").text("Finish")
+            $("#btn-check").attr("onclick", "onFinish()")
+            $("#btn-check").show()
         }
     }
     else if (state == RIGHT_ANSWER_STATE) {
@@ -259,8 +273,11 @@ function changeFooterState(state = NEUTRAL_STATE, isLastWord = false) {
 
 //this method is used when we need to set a footer example
 function setFooterExample(word, example_to_show) {
-    example_to_show = example_to_show.replace(word, "".concat("<span class=\"underlined\">", word, "</span>"))
+    if(example_to_show.length > 0)
+        example_to_show = example_to_show.replace(word, "".concat("<span style=\"underlined\">", word, "</span>"))
     $("#example-text").text(example_to_show)
+    if(example_to_show == "You don't have any examples yet!")
+        $("#example-text").append("<span style=\"font-weight: bold\">Try to add one to improve faster!</span>")
 }
 
 //this method fires when we want to save the answer
@@ -291,15 +308,19 @@ function saveAnswer(answerState) {
 function showTestResult(resultHTML) {
     $(".progress-container").hide()
     $("#question").hide()
-    $("#btn-end-test a").text("Back to testing page")
-    $("#btn-end-test a").attr("href", TESTS_MAIN_PAGE_URL)
+    $("#footer").hide()
+    $("#btn-end-test a").hide()
 
     $("#btn-end-test").after(resultHTML)
 }
 
 function setTestProgressBar(percents) {
-    $(".progress-bar").text(percents + "%")
-    $(".progress-bar").attr("style", "".concat("width: ", percents, "%;"))
-    $(".progress-bar").attr("aria-valuenow", percents)
+    $(".progress-bar").text(percents * 100 + "%")
+    $(".progress-bar").attr("style", "".concat("width: ", percents * 100, "%;"))
+    $(".progress-bar").attr("aria-valuenow", percents * 100)
+}
+
+function clearQuestionChoices() {
+    $("#question-choices").empty()
 }
 
