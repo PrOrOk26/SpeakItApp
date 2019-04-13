@@ -12,12 +12,18 @@
 	<div id="content">
 		<div id="functionality" class="m-block">
 			<div id="builder">
-				<h1>Vocabulary builder</h1>
-				<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Start</a>
+				<div id="builder-main">
+					<h1>Vocabulary builder</h1>
+					<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Start</a>
+				</div>
+				<img id="result-icon" src="http://127.0.0.1:8000/static/lang/img/languages.svg" width="200" height="200" alt="image format png"/>
 			</div>
 			<div id="test">
-				<h1>Test you vocabulary knowledge</h1>
-				<a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing</a>
+				<div id="test-main">
+					<h1>Test you vocabulary <br> knowledge</h1>
+					<a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing</a>
+				</div>
+				<img id="result-icon" src="http://127.0.0.1:8000/static/lang/img/checklist.svg" width="200" height="200" alt="image format png"/>
 			</div>
 		</div>
 		<div id="tasks">

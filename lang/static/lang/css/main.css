@@ -11,7 +11,8 @@ body {
 	background: rgb(238, 236, 236);
 }
 
-#functionality div {
+#functionality #builder,
+#functionality #test {
 	position: relative;
 	background-color: white;
 	margin: 25px 10px;
@@ -19,6 +20,7 @@ body {
 	border: 2px solid black;
 	border-radius: 5px;
 }
+
 
 #content #tasks {
 	float: right;
@@ -56,6 +58,7 @@ body {
 }
 
 #builder {
+	position: relative;
 	margin-left: 5px;
 	margin-right: 5px;
 	padding: 5px;
@@ -65,10 +68,22 @@ body {
 }
 
 #test {
+	position: relative;
 	margin-left: 5px;
 	margin-right: 5px;
 	padding: 5px;
 	text-align: center;
 	border: 1px solid gray;
 	border-radius: 5px;
+}
+
+#builder #builder-main,
+#test #test-main {
+	display: inline-block;
+  	top: 50%;
+}
+
+#builder img,
+#test img {
+	margin: 10px;
 }

@@ -46,7 +46,7 @@
 			</form>
 			{% endif %}
 			<a id="add-button" class="btn btn-success" href="{% url 'lang:builder:addword' user.username %}">Add word</a>
-			<a id="manage-topics-button" class="btn btn-success" href="{% url 'lang:builder:addword' user.username %}">Manage topics</a>
+			<a id="manage-topics-button" class="btn btn-success" href="{% url 'lang:builder:topics' user.username %}">Manage topics</a>
 		</div> 
 		{% render_table table %}	 
 	</div>

@@ -66,7 +66,11 @@ class UserEditForm(UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
         self.fields['date_of_birth'].widget = forms.DateInput()
+        self.fields['date_of_birth'].help_text = "For example: 1999-01-26"
+        self.fields['email'].help_text = "Valid email address"
+        self.fields['country'].help_text = "The country you live in"
         self.fields['password'].help_text = "You can change your password using the button below"
+
  
     def save(self, commit=True):
         user = super(UserEditForm, self).save(commit=False)

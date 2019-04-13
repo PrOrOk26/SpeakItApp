@@ -12,5 +12,5 @@ urlpatterns = [
     path('add/', views.AddWordView.as_view(), name='addword'),
     path('edit/<int:pk>/', views.EditWordView.as_view(), name='editword'),
     path('delete/', views.DeleteWordView.as_view(), name='deleteword'),
-    path('topics/', views.TopicsListView.as_view(), name='topics')
+    path('topics/', views.ManageTopicsView.as_view(), name='topics')
 ]

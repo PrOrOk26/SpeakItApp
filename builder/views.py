@@ -1,7 +1,7 @@
 from django_tables2 import RequestConfig
-from lang.models import Word, User
+from lang.models import Word, User, UserLearnsLanguage, Language
 from .tables import WordsTable
-from .forms import WordForm
+from .forms import WordForm, UserTopicsFormset
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from .filters import WordFilter
@@ -15,7 +15,6 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-
 
 class FilteredWordsListView(SingleTableMixin, FilterView):
     table_class = WordsTable
@@ -79,6 +78,34 @@ class DeleteWordView(TemplateView):
             data['is_deleted'] = True
         return JsonResponse(data)
 
-class TopicsListView(ListView):
-    pass
+class ManageTopicsView(ListView):
+
+    template_name = "builder/add_topic.html"
+    
+    def get(self, request, username):
+        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, 
+                                     lang_id=Language.objects.get(
+                                         lang_name='English'))
+        formset = UserTopicsFormset(queryset=language_learner.topic_set.order_by('?'))
+        return render(request, self.template_name, {'formset': formset})
+
+    def post(self, request, username):
+        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, lang_id=Language.objects.get(lang_name='English'))
+        formset = UserTopicsFormset(request.POST)
+        if formset.is_valid():
+            for topic_form in formset:
+                if topic_form.is_valid():
+                    if topic_form not in formset.deleted_forms:
+                        topic_form.save(commit=True,
+                                language_learner=language_learner
+                                )
+                    else:
+                        topic = topic_form.save(commit=False,
+                                        language_learner=language_learner)
+                        topic.delete()
+
+            return HttpResponseRedirect(reverse("lang:builder:builder_main",
+                                                kwargs={'username': username  }))
+        messages.error(request, "Invalid data!")
+        return render(request, ManageTopicsView.template_name, context={'formset': formset})
 

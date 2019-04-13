@@ -87,9 +87,9 @@ class UserLearnsLanguage(models.Model):
 
 class Topic(models.Model):
     topic_name = models.CharField(max_length=255)
-    topic_desc = models.CharField(max_length=255, )
+    topic_desc = models.CharField(blank=True, max_length=255, default="")
     success_rate = models.FloatField(default=0.0)
-    language_id = models.ForeignKey(Language, on_delete=models.CASCADE)
+    language_learner_id = models.ForeignKey(UserLearnsLanguage, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.topic_name
