@@ -5,3 +5,9 @@
     margin-left: 5%;
     margin-bottom: 1%;
 }
+.common-container .content-main {
+    display: inline-block;
+}
+.common-container .result-icon {
+    display: inline-block;
+}

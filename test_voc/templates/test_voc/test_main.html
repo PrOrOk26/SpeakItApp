@@ -15,16 +15,25 @@
     {% endblock %}
 	<div id="content">
 		<div class="common-container">
-            <h1>Test your vocabulary by guessing a meaning</h1>
-            <a class="btn btn-success" href="{% url 'lang:test_voc:testmeaning' user.username %}">Start testing by meanings</a>
+            <div class="content-main">
+                    <h1>Test your vocabulary by guessing a meaning</h1>
+                    <a class="btn btn-success" href="{% url 'lang:test_voc:testmeaning' user.username %}">Start testing by meanings</a>
+            </div>
+            <img class="result-icon" src="http://127.0.0.1:8000/static/test_voc/img/mom.svg" width="200" height="200" alt="image format png"/>
         </div> 	 
         <div class="common-container">
-            <h1>Test your vocabulary by questions</h1>
-            <a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing with funny questions</a>
+                <div class="content-main">
+                        <h1>Test your vocabulary by questions</h1>
+                        <a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing with funny questions</a>
+                </div>
+                <img class="result-icon" src="http://127.0.0.1:8000/static/test_voc/img/conversation.svg" width="200" height="200" alt="image format png"/>
         </div>
         <div class="common-container">
-            <h1>Test your vocabulary by examples</h1>
-            <a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing with a help of examples</a>
+                <div class="content-main">
+                    <h1>Test your vocabulary by examples</h1>
+                    <a class="btn btn-success" href="{% url 'lang:test_voc:testmain' user.username %}">Start testing with a help of examples</a>
+                </div>
+                <img class="result-icon" src="http://127.0.0.1:8000/static/test_voc/img/research.svg" width="200" height="200" alt="image format png"/>
         </div>
 	</div>
 
