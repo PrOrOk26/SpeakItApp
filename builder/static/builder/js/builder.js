@@ -4,9 +4,18 @@
 			$('.table > thead > tr > th').first().hide()
 			hideId(td_id)
 			var word_id = td_id.innerText
+
 			var edit_ref = $(this).find('.edit')[0]
-			const url = "edit/" + word_id + "/"
-			$(edit_ref).attr("href", url)
+			var meanings_ref = $(this).find('.meanings-ref')[0]
+			var examples_ref = $(this).find('.examples-ref')[0]
+
+			const edit_url = "edit/" + word_id + "/"
+			const meanings_url = word_id + "/meanings/"
+			const examples_url = word_id + "/examples/"
+
+			$(edit_ref).attr("href", edit_url)
+			$(meanings_ref).attr("href", meanings_url)
+			$(examples_ref).attr("href", examples_url)
 		})
 
 		var paginatorNav = $(".table-container").find('nav')

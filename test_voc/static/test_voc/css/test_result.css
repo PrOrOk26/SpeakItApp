@@ -20,3 +20,8 @@
     width: 50%;
     margin: 20px auto;
 }
+
+#result-content .result-icon {
+    width: 100%;
+    margin: 2px auto;
+}

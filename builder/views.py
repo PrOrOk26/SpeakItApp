@@ -78,7 +78,7 @@ class DeleteWordView(TemplateView):
             data['is_deleted'] = True
         return JsonResponse(data)
 
-class ManageTopicsView(ListView):
+class ManageTopicsView(TemplateView):
 
     template_name = "builder/add_topic.html"
     
@@ -109,3 +109,63 @@ class ManageTopicsView(ListView):
         messages.error(request, "Invalid data!")
         return render(request, ManageTopicsView.template_name, context={'formset': formset})
 
+class ManageMeaningsView(TemplateView):
+    template_name = "builder/edit_word_meanings.html"
+    
+    def get(self, request, username, pk):
+        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, 
+                                     lang_id=Language.objects.get(
+                                         lang_name='English'))
+        formset = UserTopicsFormset(queryset=language_learner.topic_set.order_by('?'))
+        return render(request, self.template_name, {'formset': formset})
+
+    def post(self, request, username):
+        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, lang_id=Language.objects.get(lang_name='English'))
+        formset = UserTopicsFormset(request.POST)
+        if formset.is_valid():
+            for topic_form in formset:
+                if topic_form.is_valid():
+                    if topic_form not in formset.deleted_forms:
+                        topic_form.save(commit=True,
+                                language_learner=language_learner
+                                )
+                    else:
+                        topic = topic_form.save(commit=False,
+                                        language_learner=language_learner)
+                        topic.delete()
+
+            return HttpResponseRedirect(reverse("lang:builder:builder_main",
+                                                kwargs={'username': username  }))
+        messages.error(request, "Invalid data!")
+        return render(request, ManageTopicsView.template_name, context={'formset': formset})
+
+
+class ManageExamplesView(TemplateView):
+    template_name = "builder/edit_word_examples.html"
+    
+    def get(self, request, username):
+        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, 
+                                     lang_id=Language.objects.get(
+                                         lang_name='English'))
+        formset = UserTopicsFormset(queryset=language_learner.topic_set.order_by('?'))
+        return render(request, self.template_name, {'formset': formset})
+
+    def post(self, request, username):
+        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, lang_id=Language.objects.get(lang_name='English'))
+        formset = UserTopicsFormset(request.POST)
+        if formset.is_valid():
+            for topic_form in formset:
+                if topic_form.is_valid():
+                    if topic_form not in formset.deleted_forms:
+                        topic_form.save(commit=True,
+                                language_learner=language_learner
+                                )
+                    else:
+                        topic = topic_form.save(commit=False,
+                                        language_learner=language_learner)
+                        topic.delete()
+
+            return HttpResponseRedirect(reverse("lang:builder:builder_main",
+                                                kwargs={'username': username  }))
+        messages.error(request, "Invalid data!")
+        return render(request, ManageTopicsView.template_name, context={'formset': formset})

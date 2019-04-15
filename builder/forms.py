@@ -1,4 +1,6 @@
-from lang.models import Word, UserLearnsLanguage, Language, Topic
+from lang.models import (Word, UserLearnsLanguage, 
+                        Language, Topic, WordExample,
+                        Meaning)
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
 from django.core.validators import MinLengthValidator
@@ -61,5 +63,65 @@ class UserTopicsForm(forms.ModelForm):
         
         return topic
 
+class WordMeaningForm(forms.ModelForm):
+
+    class Meta:
+        model = Meaning
+        fields = ('meaning', 'guide_word', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['meaning'].widget = forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter meaning here'
+        })
+        self.fields['guide_word'].widget = forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter guide word to enhance your learning process'
+        })
+        self.fields['meaning'].validators.append(MinLengthValidator(limit_value=3))
+        self.fields['guide_word'].validators.append(MinLengthValidator(limit_value=3))
+
+    def save(self, commit=False, word=None):
+        if not word or word.id:
+            return 
+        meaning = super(WordMeaningForm, self).save(commit=False)
+        meaning.word = word.id
+
+        if commit:
+            meaning.save()
+        
+        return meaning
+
+class WordExamplesForm(forms.ModelForm):
+
+    class Meta:
+        model = WordExample
+        fields = ('text',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['text'].widget = forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your example here'
+        })
+        self.fields['text'].validators.append(MinLengthValidator(limit_value=5))
+
+    def save(self, commit=False, word=None):
+        if not word or word.id:
+            return 
+        example = super(WordExamplesForm, self).save(commit=False)
+        example.word = word.id
+        example.meaning_id = word.meaning_set.first().id
+
+        if commit:
+            example.save()
+        
+        return example
+
 UserTopicsFormset = forms.modelformset_factory(Topic, form=UserTopicsForm, extra=1,
+                                                can_delete=True)
+WordMeaningsFormset = forms.modelformset_factory(Meaning, form=WordMeaningForm, extra=1,
+                                                can_delete=True)
+WordExamplesFormset = forms.modelformset_factory(WordExample, form=WordExamplesForm, extra=1,
                                                 can_delete=True)

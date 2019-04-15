@@ -103,6 +103,10 @@ class TestProcessResultView(TemplateView):
     phrases_medium = ("OK!But you can do better!",
                        "Not bad,but this is not best result possible!",
                         "Not your best, but you can do better next time!")
+    IMG_REF_SUCCESS = "http://127.0.0.1:8000/static/test_voc/img/amazed.svg"
+    IMG_REF_MEDIUM = "http://127.0.0.1:8000/static/test_voc/img/happy.svg"
+    IMG_REF_FAILURE = "http://127.0.0.1:8000/static/test_voc/img/heart.svg"
+    IMG_REF_PERFECT = "http://127.0.0.1:8000/static/test_voc/img/cool.svg"
 
     def post(self, request, username):
         test_results = loads(request.POST.get("results")) 
@@ -128,15 +132,19 @@ class TestProcessResultView(TemplateView):
         if right_answers < int(len(test_results) / 2):
             result_to_show['phrase'] = choice(self.phrases_failure)
             result_to_show['header'] = "Bad,but your results will be better!"
+            result_to_show['img'] = self.IMG_REF_FAILURE
         elif right_answers in range(int(len(test_results) / 2), int(len(test_results) * 0.8)):
             result_to_show['phrase'] = choice(self.phrases_medium)
             result_to_show['header'] = "Not bad, but you are able to improve even more!"
+            result_to_show['img'] = self.IMG_REF_MEDIUM
         elif right_answers in range(int(len(test_results) * 0.8), len(test_results)):
             result_to_show['phrase'] = choice(self.phrases_success)
             result_to_show['header'] = "Good result, but there is no limit to perfection!"
+            result_to_show['img'] = self.IMG_REF_SUCCESS
         elif right_answers == len(test_results):
             result_to_show['phrase'] = "Your result is perfect in this test,but don't stop learning!"
             result_to_show['header'] = "Excellent result, no wrong answers!"
+            result_to_show['img'] = self.IMG_REF_PERFECT
         
         resultHTML = render_to_string('test_voc/test_results.html', request=request, 
                                 context=result_to_show)

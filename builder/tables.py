@@ -5,6 +5,10 @@ class WordsTable(tables.Table):
 
     actions = tables.TemplateColumn(template_name='builder/edit_delete.html',
                                 extra_context={'label': 'Actions'})
+    meanings = tables.TemplateColumn(template_name='builder/meanings_table.html',
+                                extra_context={'label': 'Meanings'})
+    examples = tables.TemplateColumn(template_name='builder/examples_table.html',
+                                extra_context={'label': 'Examples'})
     
     class Meta:
         attrs = {

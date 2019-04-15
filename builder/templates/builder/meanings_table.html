@@ -1,0 +1,16 @@
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+    {% block css %}
+    <style>
+        .meanings-ref #span-meaning {
+            color: black;
+        }
+    </style>
+    {% endblock %}
+	<div>
+        <a class='meanings-ref btn btn-outline-primary'><span id="span-meaning" class="fa fa-pencil">Meanings</span></a>
+	</div>
+{% endblock %}

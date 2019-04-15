@@ -1,0 +1,16 @@
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+    {% block css %}
+    <style>
+        .examples-ref #span-example {
+            color: black;
+        }
+    </style>
+    {% endblock %}
+	<div>
+        <a class='examples-ref btn btn-outline-info'><span id="span-example" class="fa fa-pencil">Examples</span></a>
+	</div>
+{% endblock %}

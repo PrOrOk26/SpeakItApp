@@ -1,0 +1,32 @@
+{% extends 'lang/header_logged.html' %}
+
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block content %}
+	{% block css %}
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/common.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'lang/css/profile.css' %}">
+	<link rel="stylesheet" type="text/css" href=
+	"{% static 'builder/css/builder.css' %}">
+    {% endblock %}
+	<div id="content">
+			<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Back to word list</a>
+        <form action="{% url 'lang:builder:wordmeanings' user.username %}" method="post" class="profile-form">
+			{% csrf_token %}
+			{% bootstrap_formset formset %}
+            {% bootstrap_button 'Submit' button_type="submit" button_class="btn-primary"%}
+        </form>
+	</div>
+
+	{% block js %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+	{% endblock %}
+{% endblock %}
