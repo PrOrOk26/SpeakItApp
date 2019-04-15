@@ -83,10 +83,12 @@ class WordMeaningForm(forms.ModelForm):
         self.fields['guide_word'].validators.append(MinLengthValidator(limit_value=3))
 
     def save(self, commit=False, word=None):
-        if not word or word.id:
+        if not word or not word.id:
             return 
         meaning = super(WordMeaningForm, self).save(commit=False)
-        meaning.word = word.id
+        if not meaning.pk and not meaning.meaning:
+            return
+        meaning.word = word
 
         if commit:
             meaning.save()
@@ -108,11 +110,13 @@ class WordExamplesForm(forms.ModelForm):
         self.fields['text'].validators.append(MinLengthValidator(limit_value=5))
 
     def save(self, commit=False, word=None):
-        if not word or word.id:
-            return 
+        if not word or not word.id:
+            return  
         example = super(WordExamplesForm, self).save(commit=False)
-        example.word = word.id
-        example.meaning_id = word.meaning_set.first().id
+        if not example.pk and not example.text:
+            return
+        example.word = word
+        example.meaning_id = word.meaning_set.first()
 
         if commit:
             example.save()

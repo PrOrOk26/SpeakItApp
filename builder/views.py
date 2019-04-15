@@ -1,7 +1,9 @@
 from django_tables2 import RequestConfig
-from lang.models import Word, User, UserLearnsLanguage, Language
+from lang.models import (Word, User, UserLearnsLanguage, Language,
+                        Meaning, WordExample)
 from .tables import WordsTable
-from .forms import WordForm, UserTopicsFormset
+from .forms import (WordForm, UserTopicsFormset, WordMeaningsFormset,
+                    WordExamplesFormset)
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from .filters import WordFilter
@@ -112,60 +114,61 @@ class ManageTopicsView(TemplateView):
 class ManageMeaningsView(TemplateView):
     template_name = "builder/edit_word_meanings.html"
     
-    def get(self, request, username, pk):
-        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, 
-                                     lang_id=Language.objects.get(
-                                         lang_name='English'))
-        formset = UserTopicsFormset(queryset=language_learner.topic_set.order_by('?'))
-        return render(request, self.template_name, {'formset': formset})
+    def get(self, request, username):
+        pk = request.GET.get('pk' or None)
+        meanings_to_edit = Meaning.objects.filter(word=pk).order_by('?')
+        formset = WordMeaningsFormset(queryset=meanings_to_edit)
+        return render(request, self.template_name, {'formset': formset,
+                                                    'pk': pk})
 
     def post(self, request, username):
-        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, lang_id=Language.objects.get(lang_name='English'))
-        formset = UserTopicsFormset(request.POST)
+        pk = request.GET.get('pk' or None)
+        word = Word.objects.get(id=pk)
+        formset = WordMeaningsFormset(request.POST)
         if formset.is_valid():
-            for topic_form in formset:
-                if topic_form.is_valid():
-                    if topic_form not in formset.deleted_forms:
-                        topic_form.save(commit=True,
-                                language_learner=language_learner
-                                )
+            for meaning_form in formset:
+                if meaning_form.is_valid():
+                    if meaning_form not in formset.deleted_forms:
+                        meaning_form.save(commit=True,
+                                word=word)
                     else:
-                        topic = topic_form.save(commit=False,
-                                        language_learner=language_learner)
-                        topic.delete()
+                        meaning = meaning_form.save(commit=False,
+                                        word=word)
+                        meaning.delete()
 
             return HttpResponseRedirect(reverse("lang:builder:builder_main",
                                                 kwargs={'username': username  }))
         messages.error(request, "Invalid data!")
-        return render(request, ManageTopicsView.template_name, context={'formset': formset})
+        return render(request, ManageMeaningsView.template_name, context={'formset': formset})
 
 
 class ManageExamplesView(TemplateView):
     template_name = "builder/edit_word_examples.html"
     
     def get(self, request, username):
-        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, 
-                                     lang_id=Language.objects.get(
-                                         lang_name='English'))
-        formset = UserTopicsFormset(queryset=language_learner.topic_set.order_by('?'))
-        return render(request, self.template_name, {'formset': formset})
+        pk = request.GET.get('pk' or None)
+        examples_to_edit = WordExample.objects.filter(word=pk).order_by('?')
+        formset = WordExamplesFormset(queryset=examples_to_edit)
+        return render(request, self.template_name, {'formset': formset,
+                                                    'pk': pk})
 
     def post(self, request, username):
-        language_learner = UserLearnsLanguage.objects.get(learner_id=request.user, lang_id=Language.objects.get(lang_name='English'))
-        formset = UserTopicsFormset(request.POST)
+        pk = request.GET.get('pk' or None)
+        word = Word.objects.get(id=pk)
+        formset = WordExamplesFormset(request.POST)
         if formset.is_valid():
-            for topic_form in formset:
-                if topic_form.is_valid():
-                    if topic_form not in formset.deleted_forms:
-                        topic_form.save(commit=True,
-                                language_learner=language_learner
+            for example_form in formset:
+                if example_form.is_valid():
+                    if example_form not in formset.deleted_forms:
+                        example_form.save(commit=True,
+                                word=word
                                 )
                     else:
-                        topic = topic_form.save(commit=False,
-                                        language_learner=language_learner)
-                        topic.delete()
+                        example = example_form.save(commit=False,
+                                        word=word)
+                        example.delete()
 
             return HttpResponseRedirect(reverse("lang:builder:builder_main",
                                                 kwargs={'username': username  }))
         messages.error(request, "Invalid data!")
-        return render(request, ManageTopicsView.template_name, context={'formset': formset})
+        return render(request, ManageExamplesView.template_name, context={'formset': formset})

@@ -17,7 +17,7 @@
     {% endblock %}
 	<div id="content">
 			<a class="btn btn-success" href="{% url 'lang:builder:builder_main' user.username %}">Back to word list</a>
-        <form action="{% url 'lang:builder:wordexamples' user.username %}" method="post" class="profile-form">
+        <form action="{% url 'lang:builder:wordexamples' user.username %}?pk={{ pk | urlencode }}" method="post" class="profile-form">
 			{% csrf_token %}
 			{% bootstrap_formset formset %}
             {% bootstrap_button 'Submit' button_type="submit" button_class="btn-primary"%}

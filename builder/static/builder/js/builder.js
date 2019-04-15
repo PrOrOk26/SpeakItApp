@@ -10,8 +10,8 @@
 			var examples_ref = $(this).find('.examples-ref')[0]
 
 			const edit_url = "edit/" + word_id + "/"
-			const meanings_url = word_id + "/meanings/"
-			const examples_url = word_id + "/examples/"
+			const meanings_url = "meanings/?pk=" + word_id
+			const examples_url = "examples/?pk=" + word_id
 
 			$(edit_ref).attr("href", edit_url)
 			$(meanings_ref).attr("href", meanings_url)
