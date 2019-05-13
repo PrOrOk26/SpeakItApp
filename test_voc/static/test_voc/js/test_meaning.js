@@ -182,6 +182,7 @@ function onFinish() {
         )
     }
 
+
     const url_process_results = "process_results/"
         $.ajax({
             type: "POST",
@@ -199,7 +200,6 @@ function onFinish() {
 
 function changeFooterState(state = NEUTRAL_STATE, isLastWord = false) {
 
-    $("#btn-end-test a").attr("href", "")
     $("#btn-end-test a").attr("onclick", "onFinish()")
 
     if(state == NEUTRAL_STATE) {
@@ -273,12 +273,31 @@ function changeFooterState(state = NEUTRAL_STATE, isLastWord = false) {
 
 //this method is used when we need to set a footer example
 function setFooterExample(word, example_to_show) {
-    if(example_to_show.length > 0)
-        example_to_show = example_to_show.replace(word, "".concat("<span style=\"underlined\">", word, "</span>"))
-    $("#example-text").text(example_to_show)
+    const ARTICLES = ['a', 'the', 'to', ]
     if(example_to_show == "You don't have any examples yet!")
         $("#example-text").append("<span style=\"font-weight: bold\">Try to add one to improve faster!</span>")
-}
+    else if(example_to_show.length >= word.length) {
+        var word_tokens = word.split(' ')
+        var example_tokens = example_to_show.split(' ')
+        word_tokens = word_tokens.filter( elem => !ARTICLES.includes(elem.toLowerCase()) )
+        example_tokens = example_tokens.map( (ex_toc) => {
+            for (let word_tok of word_tokens) {
+                if(ex_toc.toLowerCase().includes(word_tok.toLowerCase()))
+                    ex_toc = ex_toc.replace(ex_toc, "".concat("<span class=\"underlined\">", ex_toc, "</span>"))
+            }
+            return ex_toc
+        })
+        example_to_show = example_tokens.join(' ')
+        $("#example-text").append(example_to_show)
+        /*
+        for(let token of example_tokens) {
+            if(!token.contains('span'))
+                $("#example-text").append(token)
+        }
+                */
+    }
+    //$("#example-text").text(example_to_show)
+    }
 
 //this method fires when we want to save the answer
 function saveAnswer(answerState) {
